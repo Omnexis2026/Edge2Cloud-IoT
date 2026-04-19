@@ -14,10 +14,26 @@
 
 #include "sdkconfig.h"
 
+#include "burglar_zones.h"
+#include "ha_mqtt_bridge.h"
+
 static const char *TAG = "ha_esp";
 
 static esp_mqtt_client_handle_t s_mqtt;
 static bool s_mqtt_started;
+
+bool ha_mqtt_ready(void)
+{
+    return s_mqtt_started && s_mqtt != NULL;
+}
+
+void ha_mqtt_publish_telemetry(const char *payload)
+{
+    if (!ha_mqtt_ready()) {
+        return;
+    }
+    esp_mqtt_client_publish(s_mqtt, s_topic_telemetry, payload, 0, 1, 0);
+}
 
 static char s_device_id[13];
 static char s_topic_cmd[96];
@@ -47,6 +63,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         ESP_LOGI(TAG, "MQTT connected");
         esp_mqtt_client_subscribe(client, s_topic_cmd, 0);
         esp_mqtt_client_publish(client, s_topic_state, "{\"online\":true}", 0, 1, 1);
+        burglar_zones_publish_snapshot();
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGW(TAG, "MQTT disconnected");
@@ -154,4 +171,8 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_wifi_start());
 
     xTaskCreate(telemetry_task, "telemetry", 4096, NULL, 5, NULL);
+
+#if CONFIG_HA_BURGLAR_ENABLE
+    burglar_zones_init_and_start();
+#endif
 }

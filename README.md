@@ -10,6 +10,7 @@ Self‑hosted IoT stack: **ESP32** devices, **MQTT** broker, **Node API**, **Rea
 
 | Path | Role |
 |------|------|
+| `hardware/` | **PCB / electric‑board deployment**: safety notes, circuits (incl. burglar NC zones), BOM — see `hardware/README.md` |
 | `firmware/esp32/` | ESP‑IDF firmware (PlatformIO); Wi‑Fi + MQTT to Mosquitto |
 | `services/broker/` | Mosquitto config, ACL, `passwd` (MQTT auth — change defaults for production) |
 | `services/api/` | Backend API |
@@ -46,6 +47,8 @@ pio device monitor
 ```
 
 The API subscribes to `home/+/device/+/telemetry` and `home/+/device/+/state` so you can confirm traffic via `/mqtt/snapshot` or Docker logs for `infra-api-1`. To change the MQTT password, regenerate `services/broker/passwd` with `mosquitto_passwd`, update `infra/.env`, flash matching credentials on the ESP, and restart the stack.
+
+**Hardware:** panel‑mount wiring, mains separation, and optional **burglar zone** GPIO inputs are documented under `hardware/` (read `SAFETY_AND_COMPLIANCE.md` first). Optional zone telemetry: `pio run -t menuconfig` → enable “Enable wired burglar (intrusion) zone inputs” and assign GPIOs (NC to GND, internal pull‑up).
 
 ### Secure IoT dashboard (`/iot`)
 

@@ -32,4 +32,35 @@ menu "Home automation device"
         default "demo"
         help
             Used in topic path home/{HA_HOME_ID}/device/{deviceId}/…
+
+    config HA_BURGLAR_ENABLE
+        bool "Enable wired burglar (intrusion) zone inputs"
+        default n
+        help
+            NC loops to GND with internal pull-up: closed = secure (LOW), open = alarm (HIGH).
+            Publishes JSON on the telemetry topic when zone state changes (debounced).
+
+    config HA_ZONE0_GPIO
+        depends on HA_BURGLAR_ENABLE
+        int "GPIO for zone 0 (-1 = unused)"
+        range -1 39
+        default -1
+
+    config HA_ZONE1_GPIO
+        depends on HA_BURGLAR_ENABLE
+        int "GPIO for zone 1 (-1 = unused)"
+        range -1 39
+        default -1
+
+    config HA_ZONE2_GPIO
+        depends on HA_BURGLAR_ENABLE
+        int "GPIO for zone 2 (-1 = unused)"
+        range -1 39
+        default -1
+
+    config HA_ZONE3_GPIO
+        depends on HA_BURGLAR_ENABLE
+        int "GPIO for zone 3 (-1 = unused)"
+        range -1 39
+        default -1
 endmenu
