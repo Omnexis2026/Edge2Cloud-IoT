@@ -22,6 +22,11 @@ static const char *TAG = "ha_esp";
 static esp_mqtt_client_handle_t s_mqtt;
 static bool s_mqtt_started;
 
+static char s_device_id[13];
+static char s_topic_cmd[96];
+static char s_topic_state[96];
+static char s_topic_telemetry[96];
+
 bool ha_mqtt_ready(void)
 {
     return s_mqtt_started && s_mqtt != NULL;
@@ -34,11 +39,6 @@ void ha_mqtt_publish_telemetry(const char *payload)
     }
     esp_mqtt_client_publish(s_mqtt, s_topic_telemetry, payload, 0, 1, 0);
 }
-
-static char s_device_id[13];
-static char s_topic_cmd[96];
-static char s_topic_state[96];
-static char s_topic_telemetry[96];
 
 static void build_topics(void)
 {

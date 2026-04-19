@@ -29,7 +29,7 @@ function resolveMqttUrl(): string {
 
 const mqttUrl = resolveMqttUrl();
 
-/** Match firmware topics in `firmware/esp32/src/main.c` */
+/** Match firmware topics in `firmware/esp32/main/main.c` */
 const topicTelemetry = process.env.MQTT_TOPIC_TELEMETRY ?? "home/+/device/+/telemetry";
 const topicState = process.env.MQTT_TOPIC_STATE ?? "home/+/device/+/state";
 

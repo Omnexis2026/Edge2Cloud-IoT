@@ -20,7 +20,8 @@ services/broker/passwd
 
 # ESP-IDF / PlatformIO — generated; may contain Wi‑Fi / MQTT from menuconfig
 firmware/esp32/sdkconfig
-firmware/esp32/sdkconfig.old
+firmware/esp32/sdkconfig.*
+!firmware/esp32/sdkconfig.defaults
 
 # OS & IDE
 .DS_Store

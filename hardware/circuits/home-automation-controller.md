@@ -48,7 +48,7 @@ flowchart TB
 
 ## MQTT topics (this repo)
 
-Aligned with `firmware/esp32/src/main.c`:
+Aligned with `firmware/esp32/main/main.c`:
 
 - `home/{HA_HOME_ID}/device/{MAC}/command` — subscribe
 - `home/{HA_HOME_ID}/device/{MAC}/state` — publish retained online
