@@ -1,0 +1,3 @@
+# Dev ACL — replace with per-user topic rules for production
+user home
+topic readwrite #

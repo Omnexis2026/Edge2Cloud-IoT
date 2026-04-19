@@ -1,0 +1,2 @@
+# Defaults — override locally (sdkconfig) or menuconfig; do not commit secrets.
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y

@@ -1,0 +1,311 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap");
+
+:root {
+  --bg: #0c0e14;
+  --surface: #13161f;
+  --surface-elevated: #1a1f2c;
+  --border: #2a3142;
+  --border-subtle: #232838;
+  --text: #e8eaf0;
+  --text-muted: #8b93a7;
+  --accent: #22d3ee;
+  --accent-dim: rgba(34, 211, 238, 0.15);
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --chart-temp: #38bdf8;
+  --chart-hum: #a78bfa;
+  --radius: 14px;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  --font: "DM Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  font-family: var(--font);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 10% -10%, #1e293b 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(34, 211, 238, 0.12) 0%, transparent 50%),
+    var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  text-align: left;
+}
+
+.dash__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.dash__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.dash__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.dash__subtitle {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.dash__subtitle strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dash__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.conn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+}
+
+.conn-pill--connected {
+  border-color: rgba(52, 211, 153, 0.45);
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--success);
+}
+
+.conn-pill--connecting,
+.conn-pill--reconnecting {
+  border-color: rgba(251, 191, 36, 0.5);
+  color: var(--warning);
+}
+
+.conn-pill--error {
+  border-color: rgba(248, 113, 113, 0.5);
+  color: var(--danger);
+}
+
+.conn-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.conn-pill--connected .conn-pill__dot {
+  box-shadow: 0 0 10px var(--success);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.panel--chart {
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel__head {
+  margin-bottom: 1rem;
+}
+
+.panel__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.panel__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  max-width: 72ch;
+}
+
+.panel__error {
+  margin: 0.75rem 0 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+  font-size: 0.85rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle input {
+  accent-color: var(--accent);
+  width: 1rem;
+  height: 1rem;
+}
+
+.inline-code {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  padding: 0.12rem 0.4rem;
+  border-radius: 6px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--accent);
+}
+
+.muted {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.device-card {
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-elevated);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.device-card--online {
+  border-color: rgba(52, 211, 153, 0.35);
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.08);
+}
+
+.device-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.device-card__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.device-card--online .device-card__dot {
+  background: var(--success);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.55);
+}
+
+.device-card__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.device-card__id {
+  margin: 0 0 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.device-card__meta {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  font-size: 0.8rem;
+}
+
+.device-card__meta dt {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.device-card__meta dd {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.chart-wrap {
+  flex: 1;
+  min-height: 280px;
+  margin-top: 0.5rem;
+}
+
+.chart-empty {
+  margin: 0;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.recharts-legend-item-text {
+  color: var(--text-muted) !important;
+  font-size: 0.8rem !important;
+}

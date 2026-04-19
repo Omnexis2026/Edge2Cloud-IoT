@@ -1,0 +1,66 @@
+# Run from repo root: docker compose -f infra/docker-compose.yml up --build
+# Or: cd infra && docker compose up --build
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ../services/broker/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ../services/broker/passwd:/mosquitto/config/passwd:ro
+      - ../services/broker/acl:/mosquitto/config/acl:ro
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    networks:
+      - home_net
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../services/api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      SQLITE_PATH: /data/telemetry.db
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      MQTT_USER: ${MQTT_USER:-home}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-home-dev-change-me}
+    volumes:
+      - api_data:/data
+    depends_on:
+      - mosquitto
+    networks:
+      - home_net
+    restart: unless-stopped
+
+  iot-api:
+    build:
+      context: ..
+      dockerfile: services/iot-api/Dockerfile
+    ports:
+      - "4010:4010"
+    environment:
+      NODE_ENV: production
+      PORT: "4010"
+      JWT_SECRET: ${JWT_SECRET:-change-me-use-openssl-rand-base64-48-for-production}
+      IOT_AUTH_USERNAME: ${IOT_AUTH_USERNAME:-admin}
+      IOT_AUTH_PASSWORD_HASH: ${IOT_AUTH_PASSWORD_HASH:-}
+      COOKIE_SECURE: "false"
+    networks:
+      - home_net
+    restart: unless-stopped
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
+  api_data:
+
+networks:
+  home_net:
+    driver: bridge

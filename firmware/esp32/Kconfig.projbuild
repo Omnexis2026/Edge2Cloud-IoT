@@ -1,0 +1,35 @@
+menu "Home automation device"
+    config HA_WIFI_SSID
+        string "WiFi SSID"
+        default ""
+        help
+            Your 2.4 GHz Wi‑Fi network name. Set via menuconfig or sdkconfig.defaults.
+
+    config HA_WIFI_PASSWORD
+        string "WiFi password"
+        default ""
+        help
+            Leave empty for open networks (not recommended).
+
+    config HA_MQTT_BROKER_URI
+        string "MQTT broker URI"
+        default "mqtt://192.168.1.10:1883"
+        help
+            LAN IP of the machine running Docker Mosquitto, e.g. mqtt://192.168.1.10:1883
+
+    config HA_MQTT_USERNAME
+        string "MQTT username (must match broker passwd file)"
+        default "home"
+
+    config HA_MQTT_PASSWORD
+        string "MQTT password"
+        default "home-dev-change-me"
+        help
+            Match services/broker/passwd or regenerate with mosquitto_passwd. Change for production.
+
+    config HA_HOME_ID
+        string "Home ID (topic prefix)"
+        default "demo"
+        help
+            Used in topic path home/{HA_HOME_ID}/device/{deviceId}/…
+endmenu
